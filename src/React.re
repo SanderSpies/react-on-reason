@@ -27,6 +27,18 @@ external createElementVariadic:
   (component('props), 'props, array(element)) => element =
   "createElement";
 
+[@bs.module "react"] [@ocaml.deprecated "Please use JSX syntax directly."]
+external jsxKeyed: (component('props), 'props, string) => element = "jsx";
+
+[@bs.module "react"] [@ocaml.deprecated "Please use JSX syntax directly."]
+external jsx: (component('props), 'props) => element = "jsx";
+
+[@bs.module "react"] [@ocaml.deprecated "Please use JSX syntax directly."]
+external jsxs: (component('props), 'props) => element = "jsxs";
+
+[@bs.module "react"] [@ocaml.deprecated "Please use JSX syntax directly."]
+external jsxsKeyed: (component('props), 'props, string) => element = "jsxs";
+
 type ref('value) = {mutable current: 'value};
 
 module Ref = {

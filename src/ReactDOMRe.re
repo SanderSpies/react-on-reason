@@ -1141,7 +1141,9 @@ type domProps = {
   suppressContentEditableWarning: bool,
 };
 
-[@bs.splice] [@bs.module "react"]
+[@bs.splice]
+[@bs.module "react"]
+[@deprecated "Please use React.array or JSX syntax."]
 external createDOMElementVariadic:
   (string, ~props: domProps=?, array(React.element)) => React.element =
   "createElement";
@@ -2173,10 +2175,16 @@ external objToDOMProps: Js.t({..}) => props = "%identity";
 [@deprecated "Please use ReactDOMRe.props instead"]
 type reactDOMProps = props;
 
-[@bs.splice] [@bs.val] [@bs.module "react"]
+[@bs.splice]
+[@bs.val]
+[@bs.module "react"]
+[@deprecated "Please use React.array or JSX syntax."]
 external createElement:
   (string, ~props: props=?, array(React.element)) => React.element =
   "createElement";
+
+[@deprecated "Please use JSX syntax directly."];
+external makeDOMComponent: string => React.component(domProps) = "%identity";
 
 /* Only wanna expose createElementVariadic here. Don't wanna write an interface file */
 include (
@@ -2190,6 +2198,7 @@ include (
               'returnTypeOfTheFunction =
               "apply";
 
+            [@deprecated "Please use React.array or JSX syntax."]
             let createElementVariadic = (domClassName, ~props=?, children) => {
               let variadicArguments =
                 [|Obj.magic(domClassName), Obj.magic(props)|]
@@ -2202,6 +2211,7 @@ include (
                                          );
             };
           }: {
+            [@deprecated "Please use React.array or JSX syntax."]
             let createElementVariadic:
               (string, ~props: props=?, array(React.element)) => React.element;
           }
