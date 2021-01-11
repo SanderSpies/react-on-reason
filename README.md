@@ -4,7 +4,7 @@
 ![npm](https://img.shields.io/npm/dt/reason-react)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 ![contributors](https://img.shields.io/github/contributors/reasonml/reason-react)
-[![discord](https://img.shields.io/discord/235176658175262720.svg?logo=discord&colorb=blue)](https://discord.gg/reasonml)
+[![discord](https://img.shields.io/discord/235176658175262720.svg?logo=discord&colorb=blue)](https://discord.gg/reasonml) [![Meercode CI Score](https://meercode.io/badge/reasonml/reason-react?type=ci-score&branch=master)](https://meercode.io/reasonml/reason-react)
 [![twitter](https://img.shields.io/twitter/follow/reasonml?style=social)](https://twitter.com/reasonml)
 
 ReasonReact is a safer, simpler way to build React components. You get a great type system with an even better developer experience. Why choose ReasonReact? Read more [here](https://reasonml.github.io/reason-react/docs/en/what-and-why)
