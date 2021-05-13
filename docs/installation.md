@@ -48,7 +48,7 @@ Add scripts to `package.json`:
 }
 ```
 
-Create a `bsconfig.json` file in the root of your project with the following. All the settings are already defaults, most of this is boilerplate. The important fields are `name`, `bs-dependencies` and `ppx-flags`. As you can see, we've added `reason-react`. This tells Reason where to look for bindings (similar to depdencies in your package.json).
+Create a `bsconfig.json` file in the root of your project with the following. All the settings are already defaults, most of this is boilerplate. The important fields are `name`, `bs-dependencies` and `ppx-flags`. As you can see, we've added `reason-react`. This tells Reason where to look for bindings (similar to dependencies in your package.json).
 
 ```json
 {
