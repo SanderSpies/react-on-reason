@@ -46,7 +46,7 @@ let make = () => {
 Binding to a Context defined in a JS file holds no surprises. 
 
 ```js
-/** ComponentThatDefinesTheContext.re */
+/** ComponentThatDefinesTheContext.js */
 export const ThemeContext = React.createContext("light");
 ```
 
