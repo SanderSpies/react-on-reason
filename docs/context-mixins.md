@@ -12,8 +12,12 @@ In order to use React's context, you need to create two things:
 /** ContextProvider.re */
 let themeContext = React.createContext("light");
 
-include React.Context; // Adds the makeProps external
 let make = React.Context.provider(themeContext);
+
+let makeProps = (~value, ~children, ()) => {
+  "value": value,
+  "children": children,
+};
 ```
 
 That will give you a `ContextProvider` component you can use in your application later on. You'll do this like you'd normally would in any React application.
