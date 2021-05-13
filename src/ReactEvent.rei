@@ -111,6 +111,50 @@ module Composition: {
   [@bs.get] external data: t => string = "data";
 };
 
+module Drag: {
+  type tag;
+  type t = synthetic(tag);
+
+  // SyntheticEvent
+  [@bs.get] external bubbles: t => bool = "bubbles";
+  [@bs.get] external cancelable: t => bool = "cancelable";
+  [@bs.get] external currentTarget: t => Js.t({..}) = "currentTarget";
+  [@bs.get] external defaultPrevented: t => bool = "defaultPrevented";
+  [@bs.get] external eventPhase: t => int = "eventPhase";
+  [@bs.get] external isTrusted: t => bool = "isTrusted";
+  [@bs.get] external nativeEvent: t => Js.t({..}) = "nativeEvent";
+  [@bs.send] external preventDefault: t => unit = "preventDefault";
+  [@bs.send] external isDefaultPrevented: t => bool = "isDefaultPrevented";
+  [@bs.send] external stopPropagation: t => unit = "stopPropagation";
+  [@bs.send] external isPropagationStopped: t => bool = "isPropagationStopped";
+  [@bs.get] external target: t => Js.t({..}) = "target";
+  [@bs.get] external timeStamp: t => float = "timeStamp";
+  [@bs.get] external type_: t => string = "type";
+  [@bs.send] external persist: t => unit = "persist";
+
+  // MouseEvent
+  [@bs.get] external altKey: t => bool = "altKey";
+  [@bs.get] external button: t => int = "button";
+  [@bs.get] external buttons: t => int = "buttons";
+  [@bs.get] external clientX: t => int = "clientX";
+  [@bs.get] external clientY: t => int = "clientY";
+  [@bs.get] external ctrlKey: t => bool = "ctrlKey";
+  [@bs.send]
+  external getModifierState: (t, string) => bool = "getModifierState";
+  [@bs.get] external metaKey: t => bool = "metaKey";
+  [@bs.get] external movementX: t => int = "movementX";
+  [@bs.get] external movementY: t => int = "movementY";
+  [@bs.get] external pageX: t => int = "pageX";
+  [@bs.get] external pageY: t => int = "pageY";
+  [@bs.get] [@bs.return nullable]
+  external relatedTarget: t => option(Js.t({..})) = "relatedTarget"; /* Should return Dom.eventTarget */
+  [@bs.get] external screenX: t => int = "screenX";
+  [@bs.get] external screenY: t => int = "screenY";
+  [@bs.get] external shiftKey: t => bool = "shiftKey";
+
+  [@bs.get] external dataTransfer: t => Dom.dataTransfer = "dataTransfer";
+};
+
 module Keyboard: {
   type tag;
   type t = synthetic(tag);
