@@ -30,6 +30,7 @@
   "homepage": "https://reasonml.github.io/reason-react/",
   "devDependencies": {
     "bs-platform": "^7.3.1",
+    "bsdoc": "^6.0.2-alpha",
     "jest": "^26.0.1",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",

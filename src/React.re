@@ -1,15 +1,33 @@
+[@text "React bindings for ReasonML"];
+
+[@text "{1 Elements}"];
+
+/** A React element; the equivalent of elements that get created in
+    JavaScript with [React.createElement]. */
 type element;
 
+/** Use this (instead of e.g. [<span />]) to tell React not to render
+    anything. */
 [@bs.val] external null: element = "null";
 
+/** [float(value)] casts the float [value] into a React element. */
 external float: float => element = "%identity";
+
+/** [int(value)] casts the int [value] into a React element. */
 external int: int => element = "%identity";
+
+/** [string(value)] casts the string [value] into a React element. */
 external string: string => element = "%identity";
 
+/** [array(value)] casts the element array [value] into a React element. */
 external array: array(element) => element = "%identity";
+
+[@text "{1 Components}"];
 
 type componentLike('props, 'return) = 'props => 'return;
 
+/** A React component--a function that takes props and returns a React
+    element. */
 type component('props) = componentLike('props, element);
 
 /* this function exists to prepare for making `component` abstract */
@@ -39,6 +57,8 @@ external jsxs: (component('props), 'props) => element = "jsxs";
 [@bs.module "react"] [@deprecated "Please use JSX syntax directly."]
 external jsxsKeyed: (component('props), 'props, string) => element = "jsxs";
 
+[@text "{1 Refs}"];
+
 type ref('value) = {mutable current: 'value};
 
 module Ref = {
@@ -55,6 +75,13 @@ module Ref = {
 [@bs.module "react"]
 external createRef: unit => ref(Js.nullable('a)) = "createRef";
 
+[@bs.module "react"]
+external forwardRef:
+  ([@bs.uncurry] (('props, Js.Nullable.t(ref('a))) => element)) =>
+  component('props) =
+  "forwardRef";
+
+/** Operations for working with React element children. */
 module Children = {
   [@bs.module "react"] [@bs.scope "Children"] [@bs.val]
   external map: (element, element => element) => element = "map";
@@ -75,6 +102,8 @@ module Children = {
   [@bs.module "react"] [@bs.scope "Children"] [@bs.val]
   external toArray: element => array(element) = "toArray";
 };
+
+[@text "{1 Context}"];
 
 module Context = {
   type t('props);
@@ -102,11 +131,7 @@ module Context = {
 [@bs.module "react"]
 external createContext: 'a => Context.t('a) = "createContext";
 
-[@bs.module "react"]
-external forwardRef:
-  ([@bs.uncurry] (('props, Js.Nullable.t(ref('a))) => element)) =>
-  component('props) =
-  "forwardRef";
+[@text "{1 Memo}"];
 
 [@bs.module "react"]
 external memo: component('props) => component('props) = "memo";
@@ -152,7 +177,7 @@ module Suspense = {
     "Suspense";
 };
 
-/* Experimental React.SuspenseList */
+/** Experimental React.SuspenseList */
 module SuspenseList = {
   type revealOrder;
   type tail;
@@ -181,7 +206,10 @@ module SuspenseList = {
     }) =
     "SuspenseList";
 };
-/* HOOKS */
+
+[@text "{1 Hooks}"];
+
+[@text "{2 State}"];
 
 /*
  * Yeah, we know this api isn't great. tl;dr: useReducer instead.
@@ -189,11 +217,31 @@ module SuspenseList = {
  * them differently. Lazy initializer + callback which returns state is the
  * only way to safely have any type of state and be able to update it correctly.
  */
+
+/** [useState(fn)] is the [useState] hook; it returns a pair of the
+    current state, and a state setter function.
+
+    [fn] must be a nullary function that returns the initial state, like
+    [() => 0].
+
+    The state setter function (let's call it [setState]) takes a function
+    (let's call it [update]) as its argument; [update] gets called by
+    React with the current state, and returns the new state. E.g.:
+
+    {[let (count, setCount) = React.useState(() => 0);
+setCount(count => count + 1);]}
+ */
 [@bs.module "react"]
 external useState:
   ([@bs.uncurry] (unit => 'state)) => ('state, ('state => 'state) => unit) =
   "useState";
 
+/** [useReducer(reducer, initialState)] is the [useReducer] hook; it
+    returns a pair of the current state, and an dispatch function.
+
+    [reducer(currentState, action)] is the new state.
+
+    [initialState] is the state the reducer starts with. */
 [@bs.module "react"]
 external useReducer:
   ([@bs.uncurry] (('state, 'action) => 'state), 'state) =>
@@ -210,18 +258,37 @@ external useReducerWithMapState:
   ('state, 'action => unit) =
   "useReducer";
 
+[@text {|{2 Effect}
+
+The effect hooks take an argument [fn]. [fn()] runs the effect when
+called by the React runtime. It also optionally returns a cancellation
+function which is called if the component is unmounted.|}];
+
+/** [useEffect(fn)] runs the effect [fn] on every render. */
 [@bs.module "react"]
 external useEffect: ([@bs.uncurry] (unit => option(unit => unit))) => unit =
   "useEffect";
+
+/** [useEffect0(fn)] runs the effect [fn] on first render only. */
 [@bs.module "react"]
 external useEffect0:
   ([@bs.uncurry] (unit => option(unit => unit)), [@bs.as {json|[]|json}] _) =>
   unit =
   "useEffect";
+
+/** [useEffect1(fn, deps)] runs the effect [fn] when any of the values in
+    the [deps] array changes. [deps] is meant to be used to pass in a
+    single value, but can be used to pass in any number of values (as
+    long as they are of the same type). */
 [@bs.module "react"]
 external useEffect1:
   ([@bs.uncurry] (unit => option(unit => unit)), array('a)) => unit =
   "useEffect";
+
+[@text {|The rest of the [useEffect] hooks take different-arity tuples as
+their dependencies arguments, to model exact numbers of effect
+dependencies.|}];
+
 [@bs.module "react"]
 external useEffect2:
   ([@bs.uncurry] (unit => option(unit => unit)), ('a, 'b)) => unit =
@@ -252,6 +319,9 @@ external useEffect7:
   ) =>
   unit =
   "useEffect";
+
+[@text {|The following [useLayoutEffect] bindings are modelled similarly
+to the [useEffect] bindings.|}];
 
 [@bs.module "react"]
 external useLayoutEffect:
@@ -297,6 +367,8 @@ external useLayoutEffect7:
   unit =
   "useLayoutEffect";
 
+[@text "{2 Memo}"];
+
 [@bs.module "react"]
 external useMemo: ([@bs.uncurry] (unit => 'any)) => 'any = "useMemo";
 [@bs.module "react"]
@@ -328,8 +400,15 @@ external useMemo7:
   ([@bs.uncurry] (unit => 'any), ('a, 'b, 'c, 'd, 'e, 'f, 'g)) => 'any =
   "useMemo";
 
-/* This is used as return values  */
+[@text "{2 Callback}"];
+
+/** This type forces BuckleScript to treat the hook return value as a
+    function. */
 type callback('input, 'output) = 'input => 'output;
+
+/* TODO: should we even bother to bind the first two? The whole point of
+  useCallback is memoizing the callback based on its dependencies; and
+  the dependencies need to correct too. */
 
 [@bs.module "react"]
 external useCallback:
@@ -374,10 +453,16 @@ external useCallback7:
   callback('input, 'output) =
   "useCallback";
 
+[@text "{2 Context}"];
+
 [@bs.module "react"]
 external useContext: Context.t('any) => 'any = "useContext";
 
+[@text "{2 Ref}"];
+
 [@bs.module "react"] external useRef: 'value => ref('value) = "useRef";
+
+[@text "{2 Imperative Handle}"];
 
 [@bs.module "react"]
 external useImperativeHandle0:
@@ -451,6 +536,9 @@ external useImperativeHandle7:
   unit =
   "useImperativeHandle";
 
+/** Uncurried versions of the hooks bindings. Use these if you want to
+    handle currying/not currying explicitly instead of letting
+    BuckleScript do it. */
 module Uncurried = {
   [@bs.module "react"]
   external useState:
@@ -522,6 +610,8 @@ module Uncurried = {
     "useCallback";
 };
 
+[@text "{2 Transition}"];
+
 type transitionConfig = {timeoutMs: int};
 
 [@bs.module "react"]
@@ -530,8 +620,13 @@ external useTransition:
   (callback(callback(unit, unit), unit), bool) =
   "useTransition";
 
+[@text "{1 Display Name}"];
+
+/** [setDisplayName(component, name)] sets the React [component]'s
+    display name. */
 [@bs.set]
 external setDisplayName: (component('props), string) => unit = "displayName";
 
+/** [displayName(component)] is the [component]'s display name or [None]. */
 [@bs.get] [@bs.return nullable]
 external displayName: component('props) => option(string) = "displayName";
