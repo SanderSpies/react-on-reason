@@ -97,6 +97,12 @@ const users = [
     caption: "Greenlabs",
     image: "img/logos/greenlabs.svg",
     infoLink: "https://greenlabs.co.kr",
+    pinned: true  
+  },
+  {
+    caption: "Wildcards",
+    image: "img/logos/wildcards.svg",
+    infoLink: "https://wildcards.world",
     pinned: true
   }
 ];
