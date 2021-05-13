@@ -525,10 +525,10 @@ module Uncurried = {
 type transitionConfig = {timeoutMs: int};
 
 [@bs.module "react"]
-external useTransition:
-  (~config: transitionConfig=?, unit) =>
+external unstable_useTransition:
+  unit =>
   (callback(callback(unit, unit), unit), bool) =
-  "useTransition";
+  "unstable_useTransition";
 
 [@bs.set]
 external setDisplayName: (component('props), string) => unit = "displayName";

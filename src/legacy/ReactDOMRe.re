@@ -41,20 +41,20 @@ module Experimental = {
   type root = ReactDOM.Experimental.root;
 
   [@bs.module "react-dom"]
-  external createRoot: Dom.element => root = "createRoot";
+  external unstable_createRoot: Dom.element => root = "unstable_createRoot";
 
   [@bs.send] external render: (root, React.element) => unit = "render";
 
   let createRootWithClassName = className =>
     switch (_getElementsByClassName(className)) {
     | [||] => None
-    | elements => Some(createRoot(Array.unsafe_get(elements, 0)))
+    | elements => Some(unstable_createRoot(Array.unsafe_get(elements, 0)))
     };
 
   let createRootWithId = id =>
     switch (_getElementById(id)) {
     | None => None
-    | Some(element) => Some(createRoot(element))
+    | Some(element) => Some(unstable_createRoot(element))
     };
 };
 

@@ -17,10 +17,10 @@ module Experimental = {
   type root;
 
   [@bs.module "react-dom"]
-  external createRoot: Dom.element => root = "createRoot";
+  external unstable_createRoot: Dom.element => root = "unstable_createRoot";
 
   [@bs.module "react-dom"]
-  external createBlockingRoot: Dom.element => root = "createBlockingRoot";
+  external unstable_createBlockingRoot: Dom.element => root = "unstable_createBlockingRoot";
 
   [@bs.send] external render: (root, React.element) => unit = "render";
 };
