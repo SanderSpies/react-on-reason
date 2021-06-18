@@ -5315,8 +5315,8 @@ strip-outer@^1.0.0:
     escape-string-regexp "^1.0.2"
 
 striptags@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/striptags/-/striptags-3.1.1.tgz#c8c3e7fdd6fb4bb3a32a3b752e5b5e3e38093ebd"
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/striptags/-/striptags-3.2.0.tgz#cc74a137db2de8b0b9a370006334161f7dd67052"
 
 stylehacks@^4.0.0:
   version "4.0.3"
